@@ -20,7 +20,7 @@ class Esteganografia:
         elif img.mode == 'RGBA':
             n = 4
         totalPixeles = array.size//n
-        mensaje += "$t3g0"
+        mensaje += "$3ncripTAd0"
         mensajeBinario = ''.join([format(ord(i), "08b") for i in mensaje])
         pixelNecesario = len(mensajeBinario)
         if pixelNecesario > totalPixeles:
@@ -57,12 +57,13 @@ class Esteganografia:
         bitsOcultos = [bitsOcultos[i:i+8] for i in range(0, len(bitsOcultos), 8)]
         mensaje = ""
         for i in range(len(bitsOcultos)):
-            if mensaje[-5:] == "$t3g0":
+            if mensaje[-11:] == "$3ncripTAd0":
+                print("Entre a $3ncripTAd0, sale el programa")
                 break
             else:
                 mensaje += chr(int(bitsOcultos[i], 2))
-        if "$t3g0" in mensaje:
-            print("El mensaje Oculto es:", mensaje[:-5])
+        if "$3ncripTAd0" in mensaje:
+            print("El mensaje Oculto es:", mensaje[:-11])
         else:
             print("No se encontró un mensaje oculto")
         return mensaje[:-5]
@@ -81,13 +82,13 @@ class Esteganografia:
             imagen = input()
             print("Introduce el mensaje a ocultar ")
             mensaje = input()
-            print("Introduce el nombre que quieres que tenga la imagen con el mensaje oculto")
+            print("Introduce el nombre que quieres que tenga la imagen con la terminación .png")
             imagenOculta = input()
             print("Ocultando...")
             self.Oculta(imagen, mensaje, imagenOculta)
 
         elif func == 'u':
-            print("Introduce el nombre de la imagen que se tiene que descrifrar")
+            print("Introduce el nombre de la imagen que se tiene que descrifrar con todo y formato (es decir, jpg, png, dependiendo de la imagen)")
             imagen = input()
             print("Develando...")
             self.Devela(imagen)
