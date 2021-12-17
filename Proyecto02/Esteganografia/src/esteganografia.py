@@ -1,5 +1,10 @@
 import numpy as np
 from PIL import Image 
+import sys,os
+sys.path.insert(0,
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src import manejaArchivo
+
 """
     Clase que se encarga de ocultar un mensaje en una imagen o develar el mensaje oculto de una imagen
 """
@@ -66,32 +71,42 @@ class Esteganografia:
             print("El mensaje Oculto es:", mensaje[:-11])
         else:
             print("No se encontró un mensaje oculto")
-        return mensaje[:-5]
+        return mensaje[:-11]
     
 
     """
         Método principal de la clase, realiza preguntas al usuario sobre qué quiere ocupar
     """
     def ocultaDevela(self):
+        manejador = manejaArchivo.manejaArchivo()
         print("Bienvenido. Ingresa la letra correspondiente a lo que quieres realizar")
+        print("Puedes probar con las imagenes que ya vienen incluidas, es decir, para develar puedes ocupar el archivo 'mensaje.txt' y la imagen 'macacos.jpg'.")
+        print("Para develar puedes ocupar la imagen 'macacoEncrip.png'")
         print("h: ocultar mensaje en una imagen")
         print("u: Descrifrar mensaje de una iamgen")
         func = input()
         if func == 'h':
+            print("Introduce el nombre del archivo (con extensión .txt) donde se encuentra el mensaje a ocultar")
+            archivo = input()
+            mensaje = manejador.leeArhivo(archivo)
             print("Introduce el nombre de la imagen con todo y formato (es decir, jpg, png, dependiendo de la imagen")
             imagen = input()
-            print("Introduce el mensaje a ocultar ")
-            mensaje = input()
             print("Introduce el nombre que quieres que tenga la imagen con la terminación .png")
             imagenOculta = input()
             print("Ocultando...")
             self.Oculta(imagen, mensaje, imagenOculta)
+            print("La imagen con el mensaje oculto se encuentra en esta carpeta con el nombre ",imagenOculta)
 
         elif func == 'u':
             print("Introduce el nombre de la imagen que se tiene que descrifrar con todo y formato (es decir, jpg, png, dependiendo de la imagen)")
             imagen = input()
+            print("Introduce el nombre que quieras que tenga el archivo .txt donde se escribirá el mensaje develado")
+            archivo = input()
             print("Develando...")
-            self.Devela(imagen)
+            mensaje = self.Devela(imagen)
+            manejador.escribeArchivo(archivo,mensaje)
+            print("Archivo generado de manera exitosa. Revisa el archivo ",archivo," , ahí se encuentra el mensaje develado")
+
 
         else:
             print("Entrada inválida")
